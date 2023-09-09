@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git(url: 'https://github.com/QAJOSEP/jenkins-pipeline', branch: 'master')
+            }
+        }
+
+        stage('Maven Build') {
+            steps {
+                sh 'mvn clean install'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                sh 'docker build -t qajosep/jenkins-pipeline .'
+            }
+        }
+    }
+}
